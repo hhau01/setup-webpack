@@ -4,7 +4,22 @@ class Pane extends Component {
   render() {
     return (
       <div id='pane'>
-        Pane
+        <div id='export'>
+          <button>Save</button><button>Export</button>
+        </div>
+        <div id='more-info'>
+          More Info: blah blah blah blah blah blah blah blah<br /><br />
+
+          More Info: blah blah blah blah blah blah blah blah<br /><br />
+
+          More Info: blah blah blah blah blah blah blah blah<br /><br />
+
+          More Info: blah blah blah blah blah blah blah blah<br /><br />
+
+          More Info: blah blah blah blah blah blah blah blah<br /><br />
+
+          More Info: blah blah blah blah blah blah blah blah<br /><br />
+        </div>
       </div>
     );
   }
