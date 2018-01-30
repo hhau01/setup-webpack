@@ -5,19 +5,42 @@ import './style.css';
 import Nav from './components/Nav';
 import Pane from './components/Pane';
 import ConfigContainer from './components/ConfigContainer/ConfigContainer';
+import Generation from './components/Generation';
+import { get } from 'react-agent';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      generate: false,
+      button: 'Generate'
+    }
+  }
+
   render() {
     return (
       <div id='app'>
         <Nav />
         <div id='mid'>
-          <ConfigContainer />
-          <Pane />
+          {this.state.generate ? <Generation /> : <ConfigContainer /> }
+          <Pane button={this.state.button} generate={this.generate.bind(this)} />
         </div>
       </div>
     );
   }
+
+  generate() {
+    this.setState(prevState => ({ generate: !prevState.generate }));
+    this.setState(prevState => {
+      if (prevState.button === 'Generate') return ({ button: 'Config' });
+      else return ({ button: 'Generate' });
+    });
+  }
 }
 
-render(<Agent><App /></Agent>, document.querySelector('#root'));
+const initialStore = { 
+  entry: 'client',
+  output: 'build/bundle.js'
+};
+
+render(<Agent store={initialStore}><App /></Agent>, document.querySelector('#root'));

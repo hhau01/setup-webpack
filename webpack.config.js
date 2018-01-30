@@ -6,7 +6,7 @@ module.exports = {
   entry: path.resolve(__dirname, 'client'),
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: '[name].[hash].js'
+    filename: 'bundle.[hash].js'
   },
   module: {
     rules: [
