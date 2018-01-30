@@ -4,7 +4,6 @@ import { Agent } from 'react-agent';
 import './style.css';
 import Nav from './components/Nav';
 import Pane from './components/Pane';
-import Footer from './components/Footer';
 import ConfigContainer from './components/ConfigContainer/ConfigContainer';
 
 class App extends Component {
@@ -12,9 +11,10 @@ class App extends Component {
     return (
       <div id='app'>
         <Nav />
-        <Pane />
-        <Footer />
-        <ConfigContainer />
+        <div id='mid'>
+          <ConfigContainer />
+          <Pane />
+        </div>
       </div>
     );
   }
