@@ -121,3 +121,10 @@ body {
   padding: 10px;
   box-sizing: border-box;
 }
+
+pre {
+  background-color: #FEFCE1;
+  border: 1px solid rgb(255, 242, 58) !important;
+  border-radius: 5px;
+  padding: 10px !important;
+}
