@@ -1,6 +1,21 @@
 import React, { Component } from 'react';
 
 class Nav extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loggedIn: false
+    }
+  }
+
+  renderLogin() {
+    if (this.state.loggedIn) {
+      return <span>configs <i className="fa fa-caret-down" aria-hidden="true"></i></span>;
+    } else {
+      return <a href='#'>Log Into Github</a>;
+    }
+  }
+
   render() {
     return (
       <div id='nav'>
@@ -8,7 +23,7 @@ class Nav extends Component {
           <h1>setup webpack</h1>
         </div>
         <div id='drop-down'>
-          configs <i class="fa fa-caret-down" aria-hidden="true"></i>
+          {this.renderLogin.call(this)}
         </div>
       </div>
     );

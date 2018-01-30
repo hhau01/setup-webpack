@@ -4,9 +4,8 @@ class Pane extends Component {
   render() {
     return (
       <div id='pane'>
-        <div id='export'>
-          <button>Save</button><button>Export</button>
-        </div>
+        <button onClick={this.props.generate}>{this.props.button}</button>
+        <button>Save</button>
         <div id='more-info'>
           More Info: blah blah blah blah blah blah blah blah<br /><br />
 
