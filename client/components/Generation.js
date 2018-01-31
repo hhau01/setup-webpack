@@ -24,6 +24,83 @@ class Generation extends Component {
     }
   }
 
+  renderResolve() {
+    const loaders = get('loaders');
+    let babel = false, ts = false;
+    loaders.forEach(loader => {
+      if (loader.includes('babel')) babel = true;
+      else if (loader === 'ts-loader')  ts = true;
+    });
+    let extensions = ['.js'];
+    if (babel) extensions = extensions.concat(['.jsx']);
+    if (ts) extensions = extensions.concat(['.ts', '.tsx']);
+    extensions = extensions.map(e => `'${e}'`);
+    if (babel || ts) {
+      return (
+`  resolve: {
+    extensions: [${extensions.join(', ')}]
+  },
+`);
+    }
+  }
+
+  renderModules() {
+    const loaders = get('loaders');
+    if (loaders.length > 0 ) {
+      return (
+`  modules: {
+    rules: [
+      ${renderLoaders()}
+    ]
+  },
+`);
+    }
+    function renderLoaders() {
+      let babel = false;
+      loaders.forEach(loader => {
+        if (loader.includes('babel')) babel = true;
+      });
+      let singleBabel = [...loaders];
+      if (babel) {
+        singleBabel = singleBabel.filter(l => !l.includes('babel'));
+        singleBabel.unshift('babel');
+      }
+      return singleBabel.map((loader, i) => {
+        if (loader === 'babel') {
+          return (
+        `{
+        test: /\.jsx?/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/${loaders.filter(l => l.includes('babel')).join('/')}']
+          }
+        }
+      },${singleBabel.length - 1 !== i ? '\n' : ''}`);
+        } else if (loader === 'json-loader') {
+          return (
+        `${i === 0 ? '{' : '      {'}
+        test: /\.json$/,
+        loader: 'json-loader'
+      },${singleBabel.length - 1 !== i ? '\n' : ''}`);
+        } else if (loader === 'svg-url-loader') {
+          return (
+        `${i === 0 ? '{' : '      {'}
+        test: /\.svg/,
+        loader: 'svg-url-loader'
+      },${singleBabel.length - 1 !== i ? '\n' : ''}`);
+        } else if (loader === 'ts-loader') {
+          return (
+        `${i === 0 ? '{' : '      {'}
+        test: /\.tsx?$/,
+        loader: 'ts-loader'
+      },${singleBabel.length - 1 !== i ? '\n' : ''}`);
+        }
+      }).join('');
+    }
+  }
+
   render() {
     let entries = get('entry').split('/').filter(e => e !== '.' && e.length > 0)
     .map((e, i, a) => {
@@ -53,6 +130,8 @@ class Generation extends Component {
           {`    path: path.resolve(__dirname, '${outputs}'),`}<br />
           {`    filename: '${filename}'`}<br />
           {`  },`}<br />
+          {this.renderModules()}
+          {this.renderResolve()}
           {`};`}<br />
         </pre><br />
         {this.renderNpm()}

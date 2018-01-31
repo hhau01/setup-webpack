@@ -11,16 +11,16 @@ const SERVER_PORT = process.env.SERVER_PORT || 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const sequelize = new Sequelize(keys.POSTGRES_DBNAME, keys.POSTGRES_USERNAME, keys.POSTGRES_PASSWORD, {
-  dialect: 'postgres',
-  host: keys.POSTGRES_URI,
-  port: keys.POSTGRES_PORT,
-  operatorsAliases: Sequelize.Op,
-  logging: false,
-});
-sequelize.authenticate()
-  .then(() => console.log('Connected to Postgres DB...'))
-  .catch(err => console.error('Unable to connect to DB...', err));
+// const sequelize = new Sequelize(keys.POSTGRES_DBNAME, keys.POSTGRES_USERNAME, keys.POSTGRES_PASSWORD, {
+//   dialect: 'postgres',
+//   host: keys.POSTGRES_URI,
+//   port: keys.POSTGRES_PORT,
+//   operatorsAliases: Sequelize.Op,
+//   logging: false,
+// });
+// sequelize.authenticate()
+//   .then(() => console.log('Connected to Postgres DB...'))
+//   .catch(err => console.error('Unable to connect to DB...', err));
 
 app.use(express.static(path.join(__dirname, '../build')));
 app.get('*', (req, res) => {
