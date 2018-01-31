@@ -47,7 +47,9 @@ class Generation extends Component {
     }		
   		
     renderModules() {		
-      const loaders = get('loaders');		
+      const loaders = get('loaders');
+      const plugins = get('plugins');
+      const libraries = get('libraries');		
       if (loaders.length > 0 ) {		
         return (		
   `  modules: {		
@@ -100,6 +102,9 @@ class Generation extends Component {
         },${singleBabel.length - 1 !== i ? '\n' : ''}`);		
           }		
          }).join('');		
+      }
+      function renderPlugins() {
+        const filteredPlugins = [...plugins, ...libraries];
       }		
      }
 
