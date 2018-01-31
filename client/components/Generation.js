@@ -5,6 +5,7 @@ class Generation extends Component {
 
   renderNpm() {
     const loaders = get('loaders');
+    const libraries = get('libraries');
     if (loaders.length > 0) {
       let string = 'npm install --save-dev';
       loaders.forEach(loader => {
@@ -13,6 +14,9 @@ class Generation extends Component {
         }
         string += ` ${loader}`
       })
+      libraries.forEach(library => {
+        string += ` ${library}`
+      });
       return (
         <div>
           <h2>npm install</h2>

@@ -25,7 +25,7 @@ const initialStore = {
   entry: 'client',
   output: 'build/bundle.js',
   loaders: [],
-  libraries: [],
+  libraries: []
 };
 
 render(<Agent store={initialStore}><App /></Agent>, document.querySelector('#root'));

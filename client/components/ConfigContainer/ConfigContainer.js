@@ -34,7 +34,7 @@ class ConfigContainer extends Component {
   }
 
   librarySelected(event) {
-    const loaders = get('libraries');
+    const libraries = get('libraries');
     if (!libraries.includes(event.target.value)) {
       set({ libraries: [...libraries, event.target.value] });
       event.target.selectedIndex = 0;
@@ -49,13 +49,15 @@ class ConfigContainer extends Component {
   }
 
   renderLibraries() {
-    return get('libraries').map((loader, i) => {
+    return get('libraries').map((library, i) => {
       return (
         <div className='library' key={i}>
-          {library}
-        </div>
-        <div>
-          <i onClick={() => this.libraryDeleted(i)} className='fa fa-minus-circle' aria-hidden='true'></i>
+          <div>
+            {library}
+          </div>
+          <div>
+            <i onClick={() => this.libraryDeleted(i)} className='fa fa-minus-circle' aria-hidden='true'></i>
+          </div>
         </div>
       )
     })
@@ -106,10 +108,8 @@ class ConfigContainer extends Component {
           <option value='dotenv-webpack'>dotenv-webpack</option>
           <option value='webpack-stream'>webpack-stream</option>
           <option value='webpack-blocks'>webpack-blocks</option>
-          <option value=''></option>
         </select>
       </div>
-      
     );
   }
 }
