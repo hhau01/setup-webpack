@@ -3,33 +3,28 @@ import { get } from 'react-agent';
 
 class Generation extends Component {
 
-  componentDidMount() {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js';
-    script.async = true;
-    document.body.appendChild(script);
-  }
-
   render() {
-    let entries = get('entry').split('/').map((e, i, a) => {
+    console.log(get());
+    let entries = get('entry').split('/').filter(e => e !== '.' && e.length > 0)
+    .map((e, i, a) => {
       if (i !== 0 && i !== a.length - 1) return `'` + e + `',`;
       else if (i === 0 && a.length !== 1) return e + `',`;
       else if (a.length !== 1) return `'` + e;
       else return e;
-    }).join(' ');
+    }).filter(e => e.length !== 0).join(' ');
 
-    let outputs = get('output').split('/');
+    let outputs = get('output').split('/').filter(o => o !== '.' && o.length > 0);
     const filename = outputs.pop();
-    outputs = outputs.map((e, i, a) => {
-      if (i !== 0 && i !== outputs.length - 1) return `'` + e + `',`;
-      else if (i === 0 && outputs.length !== 1) return e + `',`;
-      else if (outputs.length !== 1) return `'` + e;
-      else return e;
+    outputs = outputs.map((o, i, a) => {
+      if (i !== 0 && i !== outputs.length - 1) return `'` + o + `',`;
+      else if (i === 0 && outputs.length !== 1) return o + `',`;
+      else if (outputs.length !== 1) return `'` + o;
+      else return o;
     }).join(' ');
 
     return (
       <div id='generation'>
-        <h2>Your Webpack Config</h2>
+        <h2>Generated Code</h2>
         <pre className='prettyprint lang-js'>
           {`const path = require('path');`}<br /><br />
           {`module.exports = {`}<br />
@@ -37,7 +32,7 @@ class Generation extends Component {
           {`  output: {`}<br />
           {`    path: path.resolve(__dirname, '${outputs}'),`}<br />
           {`    filename: '${filename}'`}<br />
-          {`  }`}<br />
+          {`  },`}<br />
           {`};`}<br />
         </pre>
       </div>

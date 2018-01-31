@@ -3,6 +3,32 @@ import { get, set } from 'react-agent';
 
 class ConfigContainer extends Component {
 
+  loaderSelected(event) {
+    set({ loaders: [...get('loaders'), event.target.value] });
+    event.target.selectedIndex = 0;
+  }
+
+  loaderDeleted(index) {
+    const loaders = get('loaders');
+    delete loaders[index];
+    set({ loaders: loaders.slice(0, index).concat(loaders.slice(index + 1)) });
+  }
+
+  renderLoaders() {
+    return get('loaders').map((loader, i) => {
+      return (
+        <div className='loader' key={i}>
+          <div>
+            {loader}
+          </div>
+          <div>
+            <i onClick={() => this.loaderDeleted(i)} className='fa fa-minus-circle' aria-hidden='true'></i>
+          </div>
+        </div>
+      );
+    });
+  }
+
   render() {
     return (
       <div id='config-container'>
@@ -17,32 +43,29 @@ class ConfigContainer extends Component {
         <input value={get('output')} name='output' onChange={e => set({ output: e.target.value })} type='text' />
         <br /><br />
 
-        {/* <span className='label'>Loaders</span><br /><br />
-        <div className='checkbox'>
-          <input value='babel-preset-env' style={{ width: '70%', height: '30px' }} type='checkbox' /> 
-          babel-preset-env
-        </div>
-        <div className='checkbox'>
-          <input value='babel-preset-react' style={{ width: '70%', height: '30px' }} type='checkbox' />
-          babel-preset-react
-        </div>
-        <div className='checkbox'>
-          <input value='css-loader' style={{ width: '70%', height: '30px' }} type='checkbox' />
-          css-loader
-        </div>
-        <div className='checkbox'>
-          <input value='style-loader' style={{ width: '70%', height: '30px' }} type='checkbox' />
-          style-loader
-        </div>
-        <div className='checkbox'>
-          <input value='style-loader' style={{ width: '70%', height: '30px' }} type='checkbox' />
-          image-loader
-        </div>
-        <div className='checkbox'>
-          <input value='style-loader' style={{ width: '70%', height: '30px' }} type='checkbox' />
-          file-loader
-        </div> */}
-
+        <span className='label'>Loaders</span><br />
+        {this.renderLoaders()}
+        <select name='loaders' onChange={this.loaderSelected}>
+          <option value='---SELECT---'>---SELECT---</option>
+          <option value='babel-preset-env'>babel-preset-env</option>
+          <option value='babel-preset-flow'>babel-preset-flow</option>
+          <option value='babel-preset-react'>babel-preset-react</option>
+          <option value='babel-preset-stage-0'>babel-preset-stage-0</option>
+          <option value='css-loader'>css-loader</option>
+          <option value='file-loader'>file-loader</option>
+          <option value='html-loader'>html-loader</option>
+          <option value='img-loader'>img-loader</option>
+          <option value='json-loader'>json-loader</option>
+          <option value='less-loader'>less-loader</option>
+          <option value='mocha-loader'>mocha-loader</option>
+          <option value='postcss-loader'>postcss-loader</option>
+          <option value='raw-loader'>raw-loader</option>
+          <option value='sass-loader'>sass-loader</option>
+          <option value='style-loader'>style-loader</option>
+          <option value='svg-url-loader'>svg-url-loader</option>
+          <option value='ts-loader'>ts-loader</option>
+          <option value='url-loader'>url-loader</option>
+        </select>
         <br /><br />
       </div>
     );

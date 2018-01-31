@@ -4,6 +4,15 @@
 body {
   background-color: rgb(249, 249, 249);
   margin: 0;
+  font-family: 'Roboto Slab', serif;
+}
+
+input {
+  font-family: 'Roboto Slab', serif;
+}
+
+button {
+  font-family: 'Roboto Slab', serif;
 }
 
 #app {
@@ -45,7 +54,7 @@ body {
 
 #config-container {
   background-color: white;
-  width: 43vw;
+  width: 30vw;
   padding: 20px 40px;
   box-sizing: border-box;
 }
@@ -68,6 +77,34 @@ body {
   height: 30px;
 }
 
+#config-container select {
+  outline: none;
+  padding: 0 10px;
+  font-size: 1em;
+  margin-top: 5px;
+  width: 73%;
+  height: 30px;
+}
+
+.loader {
+  outline: none;
+  padding: 0 10px;
+  margin-top: 5px;
+  width: 70%;
+  height: 30px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #FEFCE1;
+}
+
+.fa-minus-circle {
+  font-size: 1.2em;
+  color: red;
+  cursor: pointer;
+}
+
 .checkbox {
   display: flex;
   justify-content: flex-start;
@@ -80,7 +117,7 @@ body {
 
 #generation {
   background-color: white;
-  width: 43vw;
+  width: 40vw;
   padding: 20px 40px;
   box-sizing: border-box;
 }
@@ -88,30 +125,6 @@ body {
 #generation h2 {
   font-size: 1.2em;
   font-family: 'Roboto Slab', serif;
-}
-
-#pane {
-  background-color: #FEFCE1;
-  width: 17vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 15px;
-}
-
-#pane button {
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  width: 90%;
-  background-color: rgb(255, 242, 58);
-  font-size: 1.2em;
-  margin-bottom: 20px;
-  cursor: pointer;
-  outline: none;
-  padding: 5px 0;
-}
-
-#pane button:hover {
-  background-color: #FEFCE1;
 }
 
 #more-info {
@@ -127,4 +140,15 @@ pre {
   border: 1px solid rgb(255, 242, 58) !important;
   border-radius: 5px;
   padding: 10px !important;
+  margin-top: 40px;
+}
+
+@media (max-width: 1200px) {
+  #config-container {
+    width: 40vw;
+  }
+
+  #generate {
+    width: 60vw;
+  }
 }
