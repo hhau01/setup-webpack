@@ -4,13 +4,17 @@ import { get, set } from 'react-agent';
 class ConfigContainer extends Component {
 
   loaderSelected(event) {
-    set({ loaders: [...get('loaders'), event.target.value] });
-    event.target.selectedIndex = 0;
+    const loaders = get('loaders');
+    if (!loaders.includes(event.target.value)) {
+      set({ loaders: [...loaders, event.target.value] });
+      event.target.selectedIndex = 0;
+    } else {
+      event.target.selectedIndex = 0;
+    }
   }
 
   loaderDeleted(index) {
     const loaders = get('loaders');
-    delete loaders[index];
     set({ loaders: loaders.slice(0, index).concat(loaders.slice(index + 1)) });
   }
 
@@ -32,7 +36,7 @@ class ConfigContainer extends Component {
   render() {
     return (
       <div id='config-container'>
-        <h2>Customize Your Webpack Configuration</h2>
+        <h2>Webpack Configuration</h2>
         <br />
 
         <span className='label'>Entry</span><br />

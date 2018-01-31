@@ -3,8 +3,26 @@ import { get } from 'react-agent';
 
 class Generation extends Component {
 
+  renderNpm() {
+    const loaders = get('loaders');
+    if (loaders.length > 0) {
+      let string = 'npm install --save-dev';
+      loaders.forEach(loader => {
+        if (loader.includes('babel') && !string.includes(' babel-loader babel-core')) {
+          string += ' babel-loader babel-core';
+        }
+        string += ` ${loader}`
+      })
+      return (
+        <div>
+          <h2>npm install</h2>
+          <pre id='npm'>{string}</pre>
+        </div>
+      );
+    }
+  }
+
   render() {
-    console.log(get());
     let entries = get('entry').split('/').filter(e => e !== '.' && e.length > 0)
     .map((e, i, a) => {
       if (i !== 0 && i !== a.length - 1) return `'` + e + `',`;
@@ -25,7 +43,7 @@ class Generation extends Component {
     return (
       <div id='generation'>
         <h2>Generated Code</h2>
-        <pre className='prettyprint lang-js'>
+        <pre>
           {`const path = require('path');`}<br /><br />
           {`module.exports = {`}<br />
           {`  entry: path.resolve(__dirname, '${entries}'),`}<br />
@@ -34,7 +52,8 @@ class Generation extends Component {
           {`    filename: '${filename}'`}<br />
           {`  },`}<br />
           {`};`}<br />
-        </pre>
+        </pre><br />
+        {this.renderNpm()}
       </div>
     );
   }
