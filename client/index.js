@@ -24,7 +24,7 @@ class App extends Component {
 const initialStore = { 
   entry: 'client',
   output: 'build/bundle.js',
-  loaders: []
+  loaders: ['babel-preset-react', 'babel-preset-env']
 };
 
 render(<Agent store={initialStore}><App /></Agent>, document.querySelector('#root'));
