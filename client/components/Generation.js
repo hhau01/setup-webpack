@@ -5,7 +5,8 @@ class Generation extends Component {
 
   renderNpm() {
     const loaders = get('loaders');
-    if (loaders.length > 0) {
+    const libraries = get('libraries');
+    if (loaders.length + libraries.length > 0) {
       let string = 'npm install --save-dev';
       loaders.forEach(loader => {
         if (loader.includes('babel') && !string.includes(' babel-loader babel-core')) {
@@ -13,6 +14,9 @@ class Generation extends Component {
         }
         string += ` ${loader}`
       })
+      libraries.forEach(library => {
+        string += ` ${library}`
+      });
       return (
         <div>
           <h2>npm install</h2>

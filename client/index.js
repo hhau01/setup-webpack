@@ -24,7 +24,8 @@ class App extends Component {
 const initialStore = { 
   entry: 'client',
   output: 'build/bundle.js',
-  loaders: []
+  loaders: [],
+  libraries: []
 };
 
 render(<Agent store={initialStore}><App /></Agent>, document.querySelector('#root'));
