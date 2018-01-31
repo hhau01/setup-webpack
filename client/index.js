@@ -25,6 +25,7 @@ const initialStore = {
   entry: 'client',
   output: 'build/bundle.js',
   loaders: ['babel-preset-react', 'babel-preset-env'],
+  plugins: [],
   libraries: []
 };
 
