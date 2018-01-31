@@ -48,6 +48,7 @@ class Generation extends Component {
 
   renderModules() {
     const loaders = get('loaders');
+    
     if (loaders.length > 0 ) {
       return (
 `  modules: {
@@ -57,17 +58,27 @@ class Generation extends Component {
   },
 `);
     }
+
     function renderLoaders() {
-      let babel = false;
+      let babel = false, style = false, lessOrSass = false;
       loaders.forEach(loader => {
         if (loader.includes('babel')) babel = true;
+        if (loader === 'style-loader') style = true;
+        if (loader === 'less-loader') lessOrSass = true;
+        if (loader === 'sass-loader') lessOrSass = true;
       });
-      let singleBabel = [...loaders];
+      let filteredLoaders = [...loaders];
       if (babel) {
-        singleBabel = singleBabel.filter(l => !l.includes('babel'));
-        singleBabel.unshift('babel');
+        filteredLoaders = filteredLoaders.filter(l => !l.includes('babel'));
+        filteredLoaders.unshift('babel');
       }
-      return singleBabel.map((loader, i) => {
+      if (style) {
+        filteredLoaders = filteredLoaders.filter(l => l !== 'style-loader');
+      }
+      if (lessOrSass) {
+        filteredLoaders = filteredLoaders.filter(l => l !== 'css-loader');
+      }
+      return filteredLoaders.map((loader, i) => {
         if (loader === 'babel') {
           return (
         `{
@@ -79,25 +90,43 @@ class Generation extends Component {
             presets: ['@babel/${loaders.filter(l => l.includes('babel')).join('/')}']
           }
         }
-      },${singleBabel.length - 1 !== i ? '\n' : ''}`);
+      },${filteredLoaders.length - 1 !== i ? '\n' : ''}`);
         } else if (loader === 'json-loader') {
           return (
         `${i === 0 ? '{' : '      {'}
         test: /\.json$/,
-        loader: 'json-loader'
-      },${singleBabel.length - 1 !== i ? '\n' : ''}`);
+        use: 'json-loader'
+      },${filteredLoaders.length - 1 !== i ? '\n' : ''}`);
         } else if (loader === 'svg-url-loader') {
           return (
         `${i === 0 ? '{' : '      {'}
         test: /\.svg/,
-        loader: 'svg-url-loader'
-      },${singleBabel.length - 1 !== i ? '\n' : ''}`);
+        use: 'svg-url-loader'
+      },${filteredLoaders.length - 1 !== i ? '\n' : ''}`);
         } else if (loader === 'ts-loader') {
           return (
         `${i === 0 ? '{' : '      {'}
         test: /\.tsx?$/,
-        loader: 'ts-loader'
-      },${singleBabel.length - 1 !== i ? '\n' : ''}`);
+        use: 'ts-loader'
+      },${filteredLoaders.length - 1 !== i ? '\n' : ''}`);
+        } else if (loader === 'css-loader') {
+          return (
+        `${i === 0 ? '{' : '      {'}
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },${filteredLoaders.length - 1 !== i ? '\n' : ''}`);
+        } else if (loader === 'sass-loader') {
+          return (
+        `${i === 0 ? '{' : '      {'}
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', '${loader}']
+      },${filteredLoaders.length - 1 !== i ? '\n' : ''}`);
+        } else if (loader === 'less-loader') {
+          return (
+        `${i === 0 ? '{' : '      {'}
+        test: /\.less$/,
+        use: ['style-loader', 'css-loader', '${loader}']
+      },${filteredLoaders.length - 1 !== i ? '\n' : ''}`);
         }
       }).join('');
     }
