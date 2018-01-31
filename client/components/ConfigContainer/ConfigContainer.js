@@ -12,10 +12,25 @@ class ConfigContainer extends Component {
       event.target.selectedIndex = 0;
     }
   }
+  
+  pluginSelected(event) {
+    const plugins = get('plugins');
+    if (!plugins.includes(event.target.value)) {
+      set({ plugins: [...plugins, event.target.value] });
+      event.target.selectedIndex = 0;
+    } else {
+      event.target.selectedIndex = 0;
+    }
+  }
 
   loaderDeleted(index) {
     const loaders = get('loaders');
     set({ loaders: loaders.slice(0, index).concat(loaders.slice(index + 1)) });
+  }
+
+  pluginDeleted(index) {
+    const plugins = get('plugins');
+    set({ plugins: plugins.slice(0, index).concat(plugins.slice(index + 1)) });
   }
 
   renderLoaders() {
@@ -27,6 +42,21 @@ class ConfigContainer extends Component {
           </div>
           <div>
             <i onClick={() => this.loaderDeleted(i)} className='fa fa-minus-circle' aria-hidden='true'></i>
+          </div>
+        </div>
+      );
+    });
+  }
+
+  renderPlugins() {
+    return get('plugins').map((plugin, i) => {
+      return (
+        <div className='plugin' key={i}>
+          <div>
+            {plugin}
+          </div>
+          <div>
+            <i onClick={() => this.pluginDeleted(i)} className='fa fa-minus-circle' aria-hidden='true'></i>
           </div>
         </div>
       );
@@ -109,6 +139,19 @@ class ConfigContainer extends Component {
           <option value='webpack-stream'>webpack-stream</option>
           <option value='webpack-blocks'>webpack-blocks</option>
         </select>
+        <br /><br />
+        <span className='label'>Plugins</span><br />
+        {this.renderPlugins()}
+        <select name='plugins' onChange={this.pluginSelected}>
+          <option value='---SELECT---'>---SELECT---</option>
+          <option value='extract-text-webpack-plugin'>extract-text-webpack-plugin</option>
+          <option value='offline-plugin'>offline-plugin</option>
+          <option value='rewire-webpack'>rewire-webpack</option>
+          <option value='copy-webpack-plugin'>copy-webpack-plugin</option>
+          <option value='serverless-webpack'>serverless-webpack</option>
+          <option value='svg-sprite-webpack-plugin'>offline-plugin</option>
+        </select>
+        <br /><br />
       </div>
     );
   }
