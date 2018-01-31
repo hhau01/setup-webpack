@@ -10,7 +10,7 @@ class Generation extends Component {
     const modules = loaders.concat(plugins, libraries);
     if (modules.length > 0) {
       let string = 'npm install --save-dev';
-      loaders.forEach(module => {
+      modules.forEach(module => {
         if (module.includes('babel') && !string.includes(' babel-loader babel-core')) {
           string += ' babel-loader babel-core';
         }
