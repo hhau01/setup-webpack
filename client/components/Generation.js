@@ -158,11 +158,11 @@ class Generation extends Component {
           {`module.exports = {`}<br />
           {`  entry: path.resolve(__dirname, '${entries}'),`}<br />
           {`  output: {`}<br />
-          {this.renderModules()}		
-          {this.renderResolve()}
           {`    path: path.resolve(__dirname, '${outputs}'),`}<br />
           {`    filename: '${filename}'`}<br />
           {`  },`}<br />
+          {this.renderModules()}
+          {this.renderResolve()}
           {`};`}<br />
         </pre><br />
         {this.renderNpm()}
