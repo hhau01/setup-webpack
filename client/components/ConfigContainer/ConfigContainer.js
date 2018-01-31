@@ -33,6 +33,34 @@ class ConfigContainer extends Component {
     });
   }
 
+  librarySelected(event) {
+    const loaders = get('libraries');
+    if (!libraries.includes(event.target.value)) {
+      set({ libraries: [...libraries, event.target.value] });
+      event.target.selectedIndex = 0;
+    } else {
+      event.target.selectedIndex = 0;
+    }
+  }
+
+  libraryDeleted(index) {
+    const libraries = get('libraries');
+    set({ libraries: libraries.slice(0, index).concat(libraries.slice(index + 1)) });
+  }
+
+  renderLibraries() {
+    return get('libraries').map((loader, i) => {
+      return (
+        <div className='library' key={i}>
+          {library}
+        </div>
+        <div>
+          <i onClick={() => this.libraryDeleted(i)} className='fa fa-minus-circle' aria-hidden='true'></i>
+        </div>
+      )
+    })
+  }
+
   render() {
     return (
       <div id='config-container'>
@@ -71,7 +99,17 @@ class ConfigContainer extends Component {
           <option value='url-loader'>url-loader</option>
         </select>
         <br /><br />
+        <span className='label'>Libraries</span><br />
+        {this.renderLibraries()}
+        <select name='libraries' onChange={this.librarySelected}>
+          <option value='---SELECT---'>---SELECT---</option>
+          <option value='dotenv-webpack'>dotenv-webpack</option>
+          <option value='webpack-stream'>webpack-stream</option>
+          <option value='webpack-blocks'>webpack-blocks</option>
+          <option value=''></option>
+        </select>
       </div>
+      
     );
   }
 }
