@@ -7,19 +7,14 @@ class Generation extends Component {
     const loaders = get('loaders');
     const plugins = get('plugins');
     const libraries = get('libraries');
-    if (loaders.length + libraries.length + plugins.length > 0) {
+    const modules = loaders.concat(plugins, libraries);
+    if (modules.length > 0) {
       let string = 'npm install --save-dev';
-      loaders.forEach(loader => {
-        if (loader.includes('babel') && !string.includes(' babel-loader babel-core')) {
+      loaders.forEach(module => {
+        if (module.includes('babel') && !string.includes(' babel-loader babel-core')) {
           string += ' babel-loader babel-core';
         }
-        string += ` ${loader}`
-      })
-      plugins.forEach(plugins => {
-        string += ` ${plugins}`
-      })
-      libraries.forEach(library => {
-        string += ` ${library}`	
+        string += ` ${module}`
       });
 
       return (
