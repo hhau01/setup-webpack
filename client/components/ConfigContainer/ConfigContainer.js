@@ -85,20 +85,20 @@ class ConfigContainer extends Component {
           <option value='babel-preset-flow'>babel-preset-flow</option>
           <option value='babel-preset-react'>babel-preset-react</option>
           <option value='babel-preset-stage-0'>babel-preset-stage-0</option>
-          <option value='css-loader'>css-loader</option>
-          <option value='file-loader'>file-loader</option>
-          <option value='html-loader'>html-loader</option>
-          <option value='img-loader'>img-loader</option>
+          {/* <option value='css-loader'>css-loader</option> */}
+          {/* <option value='file-loader'>file-loader</option> */}
+          {/* <option value='html-loader'>html-loader</option> */}
+          {/* <option value='img-loader'>img-loader</option> */}
           <option value='json-loader'>json-loader</option>
-          <option value='less-loader'>less-loader</option>
-          <option value='mocha-loader'>mocha-loader</option>
-          <option value='postcss-loader'>postcss-loader</option>
-          <option value='raw-loader'>raw-loader</option>
-          <option value='sass-loader'>sass-loader</option>
-          <option value='style-loader'>style-loader</option>
+          {/* <option value='less-loader'>less-loader</option> */}
+          {/* <option value='mocha-loader'>mocha-loader</option> */}
+          {/* <option value='postcss-loader'>postcss-loader</option> */}
+          {/* <option value='raw-loader'>raw-loader</option> */}
+          {/* <option value='sass-loader'>sass-loader</option> */}
+          {/* <option value='style-loader'>style-loader</option> */}
           <option value='svg-url-loader'>svg-url-loader</option>
           <option value='ts-loader'>ts-loader</option>
-          <option value='url-loader'>url-loader</option>
+          {/* <option value='url-loader'>url-loader</option> */}
         </select>
         <br /><br />
         <span className='label'>Libraries</span><br />
