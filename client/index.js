@@ -8,13 +8,29 @@ import Generation from './components/Generation';
 import { get } from 'react-agent';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {},
+    };
+  }
+  
+  setUser(user) {
+    this.setState({ user });
+  }
+
+  checkUser() {
+    if (this.state.user.username) return true;
+    return false;
+  }
+
   render() {
     return (
       <div id='app'>
-        <Nav />
+        <Nav setUser={this.setUser.bind(this)} user={this.state.user} />
         <div id='mid'>
           <ConfigContainer />
-          <Generation />
+          <Generation checkUser={this.checkUser.bind(this)} />
         </div>
       </div>
     );

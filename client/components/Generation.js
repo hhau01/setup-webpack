@@ -15,18 +15,22 @@ class Generation extends Component {
   }
 
   handleConfigSave() {
-    const configName = this.state.configInput;
-    const config = get();
-    const options = {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      body: JSON.stringify({ configName, config }),
-      credentials: 'include'
-    };
-    fetch('/configs', options).then(res => res.json()).then(data => console.log(data));
+    if (this.props.checkUser()) {
+      const configName = this.state.configInput;
+      const config = get();
+      const options = {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({ configName, config }),
+        credentials: 'include'
+      };
+      fetch('/configs', options).then(res => res.json()).then(data => console.log(data));
+    } else {
+      alert('Must be logged in. - Henry');
+    }
   }
 
   renderNpm() {

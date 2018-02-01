@@ -1,22 +1,16 @@
 import React, { Component } from 'react';
 
 class Nav extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: {},
-    };
-  }
 
   componentWillMount() {
     fetch('/auth', { credentials: 'include' }).then(response => response.json()).then((user) => {
-      this.setState({ user });
+      this.props.setUser(user);
     });
   }
 
   renderLogin() {
-    if (this.state.user.username) {
-      const formattedName = this.state.user.username.replace(/"/g, '');
+    if (this.props.user.username) {
+      const formattedName = this.props.user.username.replace(/"/g, '');
       return <span><strong>{formattedName}</strong> | configs <i className="fa fa-caret-down" aria-hidden="true"></i></span>;
     }
     return <a href="/oauth/github">Log Into Github</a>;
