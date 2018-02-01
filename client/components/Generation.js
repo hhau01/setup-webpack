@@ -162,6 +162,65 @@ class Generation extends Component {
     }
   }
 
+  renderPlugins() {
+    const plugins = get('plugins');
+    const libraries = get('libraries');
+    const selected = [...plugins, ...libraries];
+
+    if (selected.length > 0) {
+      return (
+      `  plugins: [
+    ${renderPluginsHelper()}
+  ],
+`
+  );
+    }
+    function renderPluginsHelper() {
+      return selected.map((plugin, i) => {
+        if (plugin === 'dotenv-webpack') {
+          return (
+            `${i !== 0 ? '    ' : ''}new Dotenv()${selected.length - 1 !== i ? ',\n' : ''}`);
+        } else if (plugin === 'offline-plugin') {
+          return (
+            `new OfflinePlugin()${selected.length - 1 !== i ? ',\n' : ''}`);
+        } else if (plugin === 'rewire-webpack') {
+          return (
+            `${i !== 0 ? '    ' : ''}new RewirePlugin()${selected.length - 1 !== i ? ',\n' : ''}`);
+        } else if (plugin === 'uglifyjs-webpack-plugin') {
+          return (
+            `${i !== 0 ? '    ' : ''}new UglifyJsPlugin()${selected.length - 1 !== i ? ',\n' : ''}`);
+        } else if (plugin === 'webpack-dashboard') {
+          return (
+            `${i !== 0 ? '    ' : ''}new DashboardPlugin()${selected.length - 1 !== i ? ',\n' : ''}`);
+        }
+      }).join('');
+    }    
+  }
+  
+  renderRequire() {
+    const plugins = get('plugins');
+    const libraries = get('libraries');
+    const selected = [...plugins, ...libraries];
+    return selected.map((plugin, i) => {
+      if (plugin === 'dotenv-webpack') {
+        return (
+          `const Dotenv = require('dotenv-webpack');${selected.length - 1 !== i ? '\n' : ''}`);
+      } else if (plugin === 'offline-plugin') {
+        return (
+          `const OfflinePlugin = require('offline-plugin');${selected.length - 1 !== i ? '\n' : ''}`);
+      } else if (plugin === 'rewire-webpack') {
+        return (
+          `const RewirePlugin = require("rewire-webpack");${selected.length - 1 !== i ? '\n' : ''}`);
+      } else if (plugin === 'uglifyjs-webpack-plugin') {
+        return (
+          `const UglifyJsPlugin = require('uglifyjs-webpack-plugin');${selected.length - 1 !== i ? '\n' : ''}`);
+      } else if (plugin === 'webpack-dashboard') {
+        return (
+          `const DashboardPlugin = require('webpack-dashboard/plugin');${selected.length - 1 !== i ? '\n' : ''}`);
+      }
+    }).concat(`\n\n`).join('');
+  }
+
   render() {
     let entries = get('entry').split('/').filter(e => e !== '.' && e.length > 0)
     .map((e, i, a) => {
@@ -190,7 +249,8 @@ class Generation extends Component {
           </div>
         </div>
         <pre>
-          {`const path = require('path');`}<br /><br />
+          {`const path = require('path');`}<br />
+          {this.renderRequire()}
           {`module.exports = {`}<br />
           {`  entry: path.resolve(__dirname, '${entries}'),`}<br />
           {`  output: {`}<br />
@@ -199,6 +259,7 @@ class Generation extends Component {
           {`  },`}<br />
           {this.renderModules()}
           {this.renderResolve()}
+          {this.renderPlugins()}
           {`};`}<br />
         </pre><br />
         {this.renderNpm()}
