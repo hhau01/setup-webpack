@@ -156,6 +156,12 @@ class Generation extends Component {
         } else if (plugin === 'dotenv-webpack') {
           return (
             `${i !== 0 ? '    ' : ''}new Dotenv()${selected.length - 1 !== i ? ',\n' : ''}`);
+        } else if (plugin === 'offline-plugin') {
+          return (
+            `${i !== 0 ? '    ' : ''}new OfflinePlugin()${selected.length - 1 !== i ? ',\n' : ''}`);
+        } else if (plugin === 'webpack-dashboard') {
+          return (
+            `${i !== 0 ? '    ' : ''}new DashboardPlugin()${selected.length - 1 !== i ? ',\n' : ''}`);
         }
       }).join('');
     }    
