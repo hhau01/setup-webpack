@@ -102,7 +102,7 @@ button {
 
 .fa-minus-circle {
   font-size: 1.2em;
-  color: red;
+  color: rgb(201, 40, 40);
   cursor: pointer;
 }
 
@@ -177,4 +177,8 @@ pre {
   #generation {
     width: 60vw;
   }
+}
+
+img {
+  margin-right: 10px;
 }
