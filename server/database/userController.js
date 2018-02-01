@@ -30,23 +30,19 @@ module.exports = {
       .then(response => cb(response[0][0]))
       .catch(() => cb(void 0));
   },
+  addUserConfig: (req, res) => {
+    const { userid } = req.user;
+    const { id, name } = res.locals.config;
+    sequelize.query(`UPDATE users SET configs = configs || array['{"id":${id},"name":"${name}"}'::json] WHERE userid = ${userid};`)
+      .then((response) => {
+        console.log('Updated user...');
+        res.status(200).send(response);
+      })
+      .catch((err) => {
+        res.status(400).send(err);
+      });
+  },
 };
 
-// INSERT INTO users(userid, fullname, username, email, location, configs) VALUES(123, 'henry', 'hhau01', 'henry@gmail.com', 'lost angeles', '{1,2,3}');
-// Users: userid(PK) integer fullname varchar username varchar avatar varchar email varchar location varchar configs array
-// CREATE TABLE users(
-//   userid INTEGER PRIMARY KEY,
-//   fullname VARCHAR(255) NOT NULL,
-//   username VARCHAR(255) NOT NULL,
-//   email VARCHAR(255) NOT NULL,
-//   avatar VARCHAR(255),
-//   location VARCHAR(255),
-//   configs INTEGER []
-// );
-
-// Configs: id(PK) integer name varchar config json
-// CREATE TABLE configs(
-//   id SERIAL PRIMARY KEY,
-//   name VARCHAR(255) NOT NULL,
-//   config JSON NOT NULL
-// );
+// UPDATE users SET configs = configs || '{'{"id":1,"name":"react"}'}' WHERE userid = 12615402;
+// UPDATE users SET configs = configs || array['{"id":2,"name":"react2"}'::json] WHERE userid = 12615402;
