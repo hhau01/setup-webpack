@@ -139,15 +139,25 @@ class Generation extends Component {
 
     if (selected.length > 0) {
       return (
-` plugins: [
+      `  plugins: [
     ${renderPluginsHelper()}
   ],
-  `);
+`
+  );
     }
     function renderPluginsHelper() {
       return selected.map((plugin, i) => {
-      
-      });
+        if (plugin === 'offline-plugin') {
+          return (
+            `new OfflinePlugin()${selected.length - 1 !== i ? ',\n' : ''}`);
+        } else if (plugin === 'rewire-webpack') {
+          return (
+            `${i !== 0 ? '    ' : ''}new RewirePlugin()${selected.length - 1 !== i ? ',\n' : ''}`);
+        } else if (plugin === 'dotenv-webpack') {
+          return (
+            `${i !== 0 ? '    ' : ''}new Dotenv()${selected.length - 1 !== i ? ',\n' : ''}`);
+        }
+      }).join('');
     }    
   }
 
