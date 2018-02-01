@@ -47,6 +47,7 @@ button {
 
 #drop-down {
   cursor: pointer;
+  padding-bottom: 3px;
 }
 
 #mid {
@@ -187,4 +188,30 @@ img {
 .icons {
   display: flex;
   align-items: center;
+}
+
+#menu {
+  position: absolute;
+  top: 70px;
+  right: 50px;
+  width: 200px;
+  height: 400px;
+  background-color: #FEFCE1;
+  border: 1px solid rgb(255, 242, 58);
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+#menu div:nth-child(odd) {
+  background-color: rgb(255, 242, 58);
+}
+
+.configItem {
+  padding: 5px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.configItem:hover {
+  background-color: white !important;
 }
