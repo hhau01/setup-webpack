@@ -51,7 +51,7 @@ class Generation extends Component {
     
     if (loaders.length > 0 ) {
       return (
-`  modules: {
+`  module: {
     rules: [
       ${renderLoaders()}
     ]
@@ -87,7 +87,7 @@ class Generation extends Component {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/${loaders.filter(l => l.includes('babel')).join('/')}']
+            presets: [${loaders.filter(l => l.includes('babel')).map(l => `'${l}'`).join(', ')}]
           }
         }
       },${filteredLoaders.length - 1 !== i ? '\n' : ''}`);
