@@ -5,7 +5,7 @@ CREATE TABLE users(
   email VARCHAR(255) NOT NULL,
   avatar VARCHAR(255),
   location VARCHAR(255),
-  configs INTEGER []
+  configs JSON []
 );
 
 CREATE TABLE configs(

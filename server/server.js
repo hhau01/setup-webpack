@@ -14,7 +14,7 @@ sequelize.authenticate()
   .catch(err => console.error('Unable to connect to DB...\n', err));
 
 const userController = require('./database/userController');
-// const configController = require('./database/configController');
+const configController = require('./database/configController');
 
 const SERVER_PORT = process.env.SERVER_PORT || 3000;
 
@@ -76,11 +76,11 @@ app.get('/auth', (req, res) => {
   }
 });
 
-app.post('/configs', (req, res) => {
-  console.log(req.user);
-  console.log(req.body);
-  res.json({lkjsdgd: 'lskdg'});
+app.get('/configs', (req, res) => {
+  res.end();
 });
+
+app.post('/configs', configController.addConfig, userController.addUserConfig);
 
 app.use(express.static(path.join(__dirname, '../build')));
 

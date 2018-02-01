@@ -2,18 +2,16 @@ const sequelize = require('./postgres');
 
 module.exports = {
   addConfig: (req, res, next) => {
-    const { userid, fullname, username, email, avatar, location } = res.locals.authdata;
-    sequelize.query(`INSERT INTO users (userid, fullname, username, email, avatar, location, configs)
-      VALUES(${userid}, '${fullname}', '${username}', '${email}', '${avatar}', '${location}', '{}')`)
-      .then(() => console.log(`Added user ${username}:${fullname} to DB...`))
-      .catch(() => console.log('User not added...'));
-    next();
+    const name = req.body.configName;
+    const config = JSON.stringify(req.body.config);
+    sequelize.query(`INSERT INTO configs (name, config) VALUES('${name}', '${config}') RETURNING id, name`)
+      .then((response) => {
+        res.locals.config = { id: response[0][0].id, name: response[0][0].name };
+        console.log('Config added...');
+        next();
+      })
+      .catch((err) => {
+        res.status(400).send(err);
+      });
   },
 };
-
-// Configs: id(PK) integer name varchar config json
-// CREATE TABLE configs(
-//   id SERIAL PRIMARY KEY,
-//   name VARCHAR(255) NOT NULL,
-//   config JSON NOT NULL
-// );
