@@ -5,20 +5,130 @@ class Generation extends Component {
 
   renderNpm() {
     const loaders = get('loaders');
-    if (loaders.length > 0) {
+    const plugins = get('plugins');
+    const libraries = get('libraries');
+    const modules = loaders.concat(plugins, libraries);
+    if (modules.length > 0) {
       let string = 'npm install --save-dev';
-      loaders.forEach(loader => {
-        if (loader.includes('babel') && !string.includes(' babel-loader babel-core')) {
+      modules.forEach(module => {
+        if (module.includes('babel') && !string.includes(' babel-loader babel-core')) {
           string += ' babel-loader babel-core';
         }
-        string += ` ${loader}`
-      })
+        string += ` ${module}`
+      });
+
       return (
         <div>
           <h2>npm install</h2>
           <pre id='npm'>{string}</pre>
         </div>
       );
+    }
+  }
+
+  renderResolve() {
+    const loaders = get('loaders');
+    let babel = false, ts = false;
+    loaders.forEach(loader => {
+      if (loader.includes('babel')) babel = true;
+      else if (loader === 'ts-loader')  ts = true;
+    });
+    let extensions = ['.js'];
+    if (babel) extensions = extensions.concat(['.jsx']);
+    if (ts) extensions = extensions.concat(['.ts', '.tsx']);
+    extensions = extensions.map(e => `'${e}'`);
+    if (babel || ts) {
+      return (
+`  resolve: {
+    extensions: [${extensions.join(', ')}]
+  },
+`);
+    }
+  }
+
+  renderModules() {
+    const loaders = get('loaders');
+    
+    if (loaders.length > 0 ) {
+      return (
+`  module: {
+    rules: [
+      ${renderLoaders()}
+    ]
+  },
+`);
+    }
+
+    function renderLoaders() {
+      let babel = false, style = false, lessOrSass = false;
+      loaders.forEach(loader => {
+        if (loader.includes('babel')) babel = true;
+        if (loader === 'style-loader') style = true;
+        if (loader === 'less-loader') lessOrSass = true;
+        if (loader === 'sass-loader') lessOrSass = true;
+      });
+      let filteredLoaders = [...loaders];
+      if (babel) {
+        filteredLoaders = filteredLoaders.filter(l => !l.includes('babel'));
+        filteredLoaders.unshift('babel');
+      }
+      if (style) {
+        filteredLoaders = filteredLoaders.filter(l => l !== 'style-loader');
+      }
+      if (lessOrSass) {
+        filteredLoaders = filteredLoaders.filter(l => l !== 'css-loader');
+      }
+      return filteredLoaders.map((loader, i) => {
+        if (loader === 'babel') {
+          return (
+        `{
+        test: /\.jsx?/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [${loaders.filter(l => l.includes('babel')).map(l => `'${l}'`).join(', ')}]
+          }
+        }
+      },${filteredLoaders.length - 1 !== i ? '\n' : ''}`);
+        } else if (loader === 'json-loader') {
+          return (
+        `${i === 0 ? '{' : '      {'}
+        test: /\.json$/,
+        use: 'json-loader'
+      },${filteredLoaders.length - 1 !== i ? '\n' : ''}`);
+        } else if (loader === 'svg-url-loader') {
+          return (
+        `${i === 0 ? '{' : '      {'}
+        test: /\.svg/,
+        use: 'svg-url-loader'
+      },${filteredLoaders.length - 1 !== i ? '\n' : ''}`);
+        } else if (loader === 'ts-loader') {
+          return (
+        `${i === 0 ? '{' : '      {'}
+        test: /\.tsx?$/,
+        use: 'ts-loader'
+      },${filteredLoaders.length - 1 !== i ? '\n' : ''}`);
+        } else if (loader === 'css-loader') {
+          return (
+        `${i === 0 ? '{' : '      {'}
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },${filteredLoaders.length - 1 !== i ? '\n' : ''}`);
+        } else if (loader === 'sass-loader') {
+          return (
+        `${i === 0 ? '{' : '      {'}
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', '${loader}']
+      },${filteredLoaders.length - 1 !== i ? '\n' : ''}`);
+        } else if (loader === 'less-loader') {
+          return (
+        `${i === 0 ? '{' : '      {'}
+        test: /\.less$/,
+        use: ['style-loader', 'css-loader', '${loader}']
+      },${filteredLoaders.length - 1 !== i ? '\n' : ''}`);
+        }
+      }).join('');
     }
   }
 
@@ -51,6 +161,8 @@ class Generation extends Component {
           {`    path: path.resolve(__dirname, '${outputs}'),`}<br />
           {`    filename: '${filename}'`}<br />
           {`  },`}<br />
+          {this.renderModules()}
+          {this.renderResolve()}
           {`};`}<br />
         </pre><br />
         {this.renderNpm()}
