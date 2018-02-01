@@ -64,6 +64,7 @@ class ConfigContainer extends Component {
               {loader}
             </div>
             <div>
+            <a href={`https://www.npmjs.com/package/${loader}`}><img src="npm.png" alt="NPM" height="16" width="32"></img></a>
               <i onClick={() => this.loaderDeleted(i, loader)} className='fa fa-minus-circle' aria-hidden='true'></i>
             </div>
           </div>
@@ -80,6 +81,7 @@ class ConfigContainer extends Component {
             {plugin}
           </div>
           <div>
+          <a href={`https://www.npmjs.com/package/${plugin}`}><img src="npm.png" alt="NPM" height="16" width="32"></img></a>
             <i onClick={() => this.pluginDeleted(i)} className='fa fa-minus-circle' aria-hidden='true'></i>
           </div>
         </div>
@@ -110,6 +112,7 @@ class ConfigContainer extends Component {
             {library}
           </div>
           <div>
+          <a href={`https://www.npmjs.com/package/${library}`}><img src="npm.png" alt="NPM" height="16" width="32"></img></a>
             <i onClick={() => this.libraryDeleted(i)} className='fa fa-minus-circle' aria-hidden='true'></i>
           </div>
         </div>
@@ -122,7 +125,7 @@ class ConfigContainer extends Component {
       <div id='config-container'>
         <h2>Webpack Configuration</h2>
         <br />
-
+        
         <span className='label'>Entry</span><br />
         <input value={get('entry')} name='entry' onChange={e => set({ entry: e.target.value })} type='text' />
         <br /><br />
