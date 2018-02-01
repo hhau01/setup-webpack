@@ -181,4 +181,10 @@ pre {
 
 img {
   margin-right: 10px;
+  margin-top: 5px;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
 }
