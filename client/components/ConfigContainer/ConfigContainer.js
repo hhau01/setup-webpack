@@ -63,8 +63,8 @@ class ConfigContainer extends Component {
             <div>
               {loader}
             </div>
-            <div>
-            <a href={`https://www.npmjs.com/package/${loader}`}><img src="npm.png" alt="NPM" height="16" width="32"></img></a>
+            <div className='icons'>
+              <a target="_blank" href={`https://www.npmjs.com/package/${loader}`}><img src="https://i.imgur.com/8Prjlwi.png" alt="NPM" height="16" width="32"></img></a>
               <i onClick={() => this.loaderDeleted(i, loader)} className='fa fa-minus-circle' aria-hidden='true'></i>
             </div>
           </div>
@@ -80,8 +80,8 @@ class ConfigContainer extends Component {
           <div>
             {plugin}
           </div>
-          <div>
-          <a href={`https://www.npmjs.com/package/${plugin}`}><img src="npm.png" alt="NPM" height="16" width="32"></img></a>
+          <div className='icons'>
+            <a target="_blank" href={`https://www.npmjs.com/package/${plugin}`}><img src="https://i.imgur.com/8Prjlwi.png" alt="NPM" height="16" width="32"></img></a>
             <i onClick={() => this.pluginDeleted(i)} className='fa fa-minus-circle' aria-hidden='true'></i>
           </div>
         </div>
@@ -111,8 +111,8 @@ class ConfigContainer extends Component {
           <div>
             {library}
           </div>
-          <div>
-          <a href={`https://www.npmjs.com/package/${library}`}><img src="npm.png" alt="NPM" height="16" width="32"></img></a>
+          <div className='icons'>
+            <a target="_blank" href={`https://www.npmjs.com/package/${library}`}><img src="https://i.imgur.com/8Prjlwi.png" alt="NPM" height="16" width="32"></img></a>
             <i onClick={() => this.libraryDeleted(i)} className='fa fa-minus-circle' aria-hidden='true'></i>
           </div>
         </div>
