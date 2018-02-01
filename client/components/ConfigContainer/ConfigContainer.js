@@ -159,8 +159,6 @@ class ConfigContainer extends Component {
         <select name='libraries' onChange={this.librarySelected}>
           <option value='---SELECT---'>---SELECT---</option>
           <option value='dotenv-webpack'>dotenv-webpack</option>
-          <option value='webpack-stream'>webpack-stream</option>
-          <option value='webpack-blocks'>webpack-blocks</option>
         </select>
         <br /><br />
         <span className='label'>Plugins</span><br />
@@ -170,9 +168,8 @@ class ConfigContainer extends Component {
           <option value='extract-text-webpack-plugin'>extract-text-webpack-plugin</option>
           <option value='offline-plugin'>offline-plugin</option>
           <option value='rewire-webpack'>rewire-webpack</option>
-          <option value='copy-webpack-plugin'>copy-webpack-plugin</option>
-          <option value='serverless-webpack'>serverless-webpack</option>
-          <option value='svg-sprite-webpack-plugin'>offline-plugin</option>
+          <option value='uglifyjs-webpack-plugin'>uglifyjs-webpack-plugin</option>
+          <option value='webpack-dashboard'>webpack-dashboard</option>
         </select>
         <br /><br />
       </div>
