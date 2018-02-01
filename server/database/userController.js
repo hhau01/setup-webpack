@@ -2,6 +2,7 @@ const sequelize = require('./postgres');
 
 module.exports = {
   addUser: (profile, cb) => {
+    profile = JSON.parse(profile);
     const authdata = {
       userid: profile.id,
       fullname: profile.name,
@@ -19,7 +20,7 @@ module.exports = {
         cb(authdata);
         console.log(`Added user ${username}:${fullname} to DB...`);
       })
-      .catch(() => {
+      .catch((error) => {
         cb(void 0);
         console.log('User not added...');
       });

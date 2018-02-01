@@ -76,6 +76,12 @@ app.get('/auth', (req, res) => {
   }
 });
 
+app.post('/configs', (req, res) => {
+  console.log(req.user);
+  console.log(req.body);
+  res.json({lkjsdgd: 'lskdg'});
+});
+
 app.use(express.static(path.join(__dirname, '../build')));
 
 app.listen(SERVER_PORT, () => console.log(`App listening on port ${SERVER_PORT}...`));
