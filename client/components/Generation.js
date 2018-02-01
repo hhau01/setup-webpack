@@ -214,7 +214,7 @@ class Generation extends Component {
           `const OfflinePlugin = require('offline-plugin');${selected.length - 1 !== i ? '\n' : ''}`);
       } else if (plugin === 'rewire-webpack') {
         return (
-          `const RewirePlugin = require("rewire-webpack");${selected.length - 1 !== i ? '\n' : ''}`);
+          `const RewirePlugin = require('rewire-webpack');${selected.length - 1 !== i ? '\n' : ''}`);
       } else if (plugin === 'uglifyjs-webpack-plugin') {
         return (
           `const UglifyJsPlugin = require('uglifyjs-webpack-plugin');${selected.length - 1 !== i ? '\n' : ''}`);
