@@ -132,6 +132,25 @@ class Generation extends Component {
     }
   }
 
+  renderPlugins() {
+    const plugins = get('plugins');
+    const libraries = get('libraries');
+    const selected = [...plugins, ...libraries];
+
+    if (selected.length > 0) {
+      return (
+` plugins: [
+    ${renderPluginsHelper()}
+  ],
+  `);
+    }
+    function renderPluginsHelper() {
+      return selected.map((plugin, i) => {
+      
+      });
+    }    
+  }
+
   render() {
     let entries = get('entry').split('/').filter(e => e !== '.' && e.length > 0)
     .map((e, i, a) => {
@@ -163,6 +182,7 @@ class Generation extends Component {
           {`  },`}<br />
           {this.renderModules()}
           {this.renderResolve()}
+          {this.renderPlugins()}
           {`};`}<br />
         </pre><br />
         {this.renderNpm()}
