@@ -147,24 +147,48 @@ class Generation extends Component {
     }
     function renderPluginsHelper() {
       return selected.map((plugin, i) => {
-        if (plugin === 'offline-plugin') {
+        if (plugin === 'dotenv-webpack') {
+          return (
+            `${i !== 0 ? '    ' : ''}new Dotenv()${selected.length - 1 !== i ? ',\n' : ''}`);
+        } else if (plugin === 'offline-plugin') {
           return (
             `new OfflinePlugin()${selected.length - 1 !== i ? ',\n' : ''}`);
         } else if (plugin === 'rewire-webpack') {
           return (
             `${i !== 0 ? '    ' : ''}new RewirePlugin()${selected.length - 1 !== i ? ',\n' : ''}`);
-        } else if (plugin === 'dotenv-webpack') {
+        } else if (plugin === 'uglifyjs-webpack-plugin') {
           return (
-            `${i !== 0 ? '    ' : ''}new Dotenv()${selected.length - 1 !== i ? ',\n' : ''}`);
-        } else if (plugin === 'offline-plugin') {
-          return (
-            `${i !== 0 ? '    ' : ''}new OfflinePlugin()${selected.length - 1 !== i ? ',\n' : ''}`);
+            `${i !== 0 ? '    ' : ''}new UglifyJsPlugin()${selected.length - 1 !== i ? ',\n' : ''}`);
         } else if (plugin === 'webpack-dashboard') {
           return (
             `${i !== 0 ? '    ' : ''}new DashboardPlugin()${selected.length - 1 !== i ? ',\n' : ''}`);
         }
       }).join('');
     }    
+  }
+  
+  renderRequire() {
+    const plugins = get('plugins');
+    const libraries = get('libraries');
+    const selected = [...plugins, ...libraries];
+    return selected.map((plugin, i) => {
+      if (plugin === 'dotenv-webpack') {
+        return (
+          `const Dotenv = require('dotenv-webpack');${selected.length - 1 !== i ? '\n' : ''}`);
+      } else if (plugin === 'offline-plugin') {
+        return (
+          `const OfflinePlugin = require('offline-plugin');${selected.length - 1 !== i ? '\n' : ''}`);
+      } else if (plugin === 'rewire-webpack') {
+        return (
+          `const RewirePlugin = require("rewire-webpack");${selected.length - 1 !== i ? '\n' : ''}`);
+      } else if (plugin === 'uglifyjs-webpack-plugin') {
+        return (
+          `const UglifyJsPlugin = require('uglifyjs-webpack-plugin');${selected.length - 1 !== i ? '\n' : ''}`);
+      } else if (plugin === 'webpack-dashboard') {
+        return (
+          `const DashboardPlugin = require('webpack-dashboard/plugin');${selected.length - 1 !== i ? '\n' : ''}`);
+      }
+    }).concat(`\n\n`).join('');
   }
 
   render() {
@@ -189,7 +213,8 @@ class Generation extends Component {
       <div id='generation'>
         <h2>Generated Code</h2>
         <pre>
-          {`const path = require('path');`}<br /><br />
+          {`const path = require('path');`}<br />
+          {this.renderRequire()}
           {`module.exports = {`}<br />
           {`  entry: path.resolve(__dirname, '${entries}'),`}<br />
           {`  output: {`}<br />
