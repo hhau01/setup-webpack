@@ -3,6 +3,36 @@ import { get } from 'react-agent';
 
 class Generation extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      configInput: ''
+    };
+  }
+
+  handleConfigInput(event) {
+    this.setState({ configInput: event.target.value });
+  }
+
+  handleConfigSave() {
+    if (this.props.checkUser()) {
+      const configName = this.state.configInput;
+      const config = get();
+      const options = {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({ configName, config }),
+        credentials: 'include'
+      };
+      fetch('/configs', options).then(res => res.json()).then(data => console.log(data));
+    } else {
+      alert('Must be logged in. - Henry');
+    }
+  }
+
   renderNpm() {
     const loaders = get('loaders');
     const plugins = get('plugins');
@@ -211,7 +241,13 @@ class Generation extends Component {
 
     return (
       <div id='generation'>
-        <h2>Generated Code</h2>
+        <div id='generated-code'>
+          <h2>Generated Code</h2>
+          <div>
+            <input value={this.state.configInput} onChange={this.handleConfigInput.bind(this)} type='text' placeholder='config name'></input>
+            <button onClick={this.handleConfigSave.bind(this)}>Save</button>
+          </div>
+        </div>
         <pre>
           {`const path = require('path');`}<br />
           {this.renderRequire()}
