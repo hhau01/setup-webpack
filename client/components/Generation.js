@@ -16,18 +16,22 @@ class Generation extends Component {
 
   handleConfigSave() {
     if (this.props.checkUser()) {
-      const configName = this.state.configInput;
-      const config = get();
-      const options = {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify({ configName, config }),
-        credentials: 'include'
-      };
-      fetch('/configs', options).then(res => res.json()).then(data => console.log(data));
+      if (this.state.configInput.length !== 0) {
+        const configName = this.state.configInput;
+        const config = get();
+        const options = {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: 'POST',
+          body: JSON.stringify({ configName, config }),
+          credentials: 'include'
+        };
+        fetch('/configs', options).then(res => res.json()).then(data => console.log(data));
+      } else {
+        alert(`Config name can't be empty - Henry`);
+      }
     } else {
       alert('Must be logged in. - Henry');
     }
