@@ -13,12 +13,23 @@ class App extends Component {
     super(props);
     this.state = {
       user: {},
-      menu: false
+      menu: false,
+      configs: []
     };
   }
   
   setUser(user) {
-    this.setState({ user });
+    this.setState({ user }, () => {
+      if (this.state.user.username) {
+        this.fetchConfigs();
+      }
+    });
+  }
+
+  fetchConfigs() {
+    fetch('/users/configs', { credentials: 'include' }).then(res => res.json()).then(data => {
+      this.setState({ configs: data.configs });
+    });
   }
 
   checkUser() {
@@ -30,18 +41,14 @@ class App extends Component {
     this.setState(prevState => ({ menu: !prevState.menu }));
   }
 
-  fetchConfigs() {
-    fetch('/users/configs').then(res => res.json()).then(data => console.log(data));
-  }
-
   render() {
     return (
       <div id='app'>
-        <Nav fetchConfigs={this.fetchConfigs.bind(this)} handleMenu={this.handleMenu.bind(this)} setUser={this.setUser.bind(this)} user={this.state.user} />
-        <Menu selected={this.state.menu} />
+        <Nav handleMenu={this.handleMenu.bind(this)} setUser={this.setUser.bind(this)} user={this.state.user} />
+        <Menu handleMenu={this.handleMenu.bind(this)} selected={this.state.menu} configs={this.state.configs} />
         <div id='mid'>
           <ConfigContainer />
-          <Generation checkUser={this.checkUser.bind(this)} />
+          <Generation fetchConfigs={this.fetchConfigs.bind(this)} checkUser={this.checkUser.bind(this)} />
         </div>
       </div>
     );
