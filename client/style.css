@@ -31,6 +31,8 @@ button {
   box-sizing: border-box;
   justify-content: space-between;
   font-family: 'Roboto Slab', serif;
+  z-index: 100;
+  position: absolute;
 }
 
 #nav a {
@@ -195,11 +197,14 @@ img {
   top: 70px;
   right: 50px;
   width: 200px;
-  height: 400px;
+  transform: translateY(-100%);
   background-color: #FEFCE1;
   border: 1px solid rgb(255, 242, 58);
   box-sizing: border-box;
   padding: 10px;
+  overflow-y: hidden;
+  transition: all 0.5s;
+  z-index: 50;
 }
 
 #menu div:nth-child(odd) {

@@ -10,8 +10,9 @@ class Menu extends Component {
   }
 
   render() {
+    const style = this.props.selected ? { transform: 'translateY(0)' } : {};
     return (
-      <div id='menu'>
+      <div id='menu' style={style}>
         {this.renderConfigs()}
       </div>
     );
