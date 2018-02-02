@@ -187,9 +187,12 @@ class Generation extends Component {
         if (plugin === 'dotenv-webpack') {
           return (
             `${i !== 0 ? '    ' : ''}new Dotenv()${selected.length - 1 !== i ? ',\n' : ''}`);
+        } else if (plugin === 'extract-text-webpack-plugin') {
+          return (
+            `${i !== 0 ? '    ' : ''}new ExtractTextPlugin('styles.css')${selected.length - 1 !== i ? ',\n' : ''}`);
         } else if (plugin === 'offline-plugin') {
           return (
-            `new OfflinePlugin()${selected.length - 1 !== i ? ',\n' : ''}`);
+            `${i !== 0 ? '    ' : ''}new OfflinePlugin()${selected.length - 1 !== i ? ',\n' : ''}`);
         } else if (plugin === 'rewire-webpack') {
           return (
             `${i !== 0 ? '    ' : ''}new RewirePlugin()${selected.length - 1 !== i ? ',\n' : ''}`);
@@ -212,6 +215,9 @@ class Generation extends Component {
       if (plugin === 'dotenv-webpack') {
         return (
           `const Dotenv = require('dotenv-webpack');${selected.length - 1 !== i ? '\n' : ''}`);
+      } else if (plugin === 'extract-text-webpack-plugin') {
+        return (
+          `const ExtractTextPlugin = require('extract-text-webpack-plugin');${selected.length - 1 !== i ? '\n' : ''}`);
       } else if (plugin === 'offline-plugin') {
         return (
           `const OfflinePlugin = require('offline-plugin');${selected.length - 1 !== i ? '\n' : ''}`);
