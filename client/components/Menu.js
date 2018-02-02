@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
+import { set } from 'react-agent';
 
 class Menu extends Component {
 
+  handleClick(config) {
+    fetch(`/configs/${config.id}`).then(res => res.json()).then(data => set(data));
+    this.props.handleMenu();
+  }
+
   renderConfigs() {
-    const configs = ['react', 'react-css', 'typescript'];
-    return configs.map((config, i) => {
-      return <div className='configItem' key={i}>{config}</div>
+    return this.props.configs.map((config, i) => {
+      return <div onClick={() => this.handleClick(config)} className='configItem' key={i}>{config.name}</div>
     });
   }
 

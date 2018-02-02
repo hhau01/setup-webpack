@@ -53,6 +53,7 @@ button {
 }
 
 #mid {
+  margin-top: 70px;
   display: flex;
 }
 

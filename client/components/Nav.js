@@ -6,7 +6,6 @@ class Nav extends Component {
   componentDidMount() {
     fetch('/auth', { credentials: 'include' }).then(response => response.json()).then((user) => {
       this.props.setUser(user);
-      this.props.fetchConfigs();
     });
   }
 
