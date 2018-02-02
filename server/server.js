@@ -76,9 +76,9 @@ app.get('/auth', (req, res) => {
   }
 });
 
-app.get('/configs', (req, res) => {
-  res.end();
-});
+app.get('/users/configs', userController.getUserConfigs);
+
+app.get('/configs/:id', configController.getConfig);
 
 app.post('/configs', configController.addConfig, userController.addUserConfig);
 

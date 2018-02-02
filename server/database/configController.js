@@ -14,4 +14,14 @@ module.exports = {
         res.status(400).send(err);
       });
   },
+  getConfig: (req, res) => {
+    const { id } = req.params;
+    sequelize.query(`SELECT config FROM configs WHERE id = ${id}`)
+      .then((response) => {
+        res.status(200).json(response[0][0].config);
+      })
+      .catch((err) => {
+        res.status(400).send(err);
+      });
+  },
 };

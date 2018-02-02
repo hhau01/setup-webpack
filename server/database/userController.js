@@ -42,6 +42,17 @@ module.exports = {
         res.status(400).send(err);
       });
   },
+  getUserConfigs: (req, res) => {
+    const { userid } = req.user;
+    sequelize.query(`SELECT configs FROM users WHERE userid=${userid}`)
+      .then((response) => {
+        console.log(response);
+        res.status(200).json(response[0][0]);
+      })
+      .catch((err) => {
+        res.status(400).send(err);
+      });
+  },
 };
 
 // UPDATE users SET configs = configs || '{'{"id":1,"name":"react"}'}' WHERE userid = 12615402;
