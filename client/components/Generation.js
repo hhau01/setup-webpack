@@ -28,7 +28,10 @@ class Generation extends Component {
           body: JSON.stringify({ configName, config }),
           credentials: 'include'
         };
-        fetch('/configs', options).then(res => res.json()).then(data => console.log(data));
+        fetch('/configs', options).then(res => res.json()).then(data => {
+          this.props.fetchConfigs();
+        });
+        this.setState({ configInput: '' });
       } else {
         alert(`Config name can't be empty - Henry`);
       }
