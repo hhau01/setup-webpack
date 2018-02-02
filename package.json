@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon ./server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf ./build; webpack -w"
+    "build": "rm -rf ./build; webpack -w",
+    "production": "webpack -p; forever start ./server/server.js"
   },
   "author": "Andrew Harris",
   "license": "MIT",
@@ -16,6 +17,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.9",
+    "forever": "^0.15.3",
     "html-webpack-plugin": "^2.30.1",
     "nodemon": "^1.14.11",
     "style-loader": "^0.20.1",
